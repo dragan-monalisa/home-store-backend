@@ -6,7 +6,3 @@ spring:
     password:
   jpa:
     open-in-view: true
-
-  # jwt properties
-  jwt:
-    secret-key: 792293dd2ded085410d3c15c46ea3f8b14559e91aff81f2ea2eda5f671fb7ecd
