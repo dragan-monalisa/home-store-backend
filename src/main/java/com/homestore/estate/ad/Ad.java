@@ -1,4 +1,4 @@
-package com.homestore.comment;
+package com.homestore.estate.ad;
 
 import com.homestore.security.user.User;
 import jakarta.persistence.Entity;
@@ -11,21 +11,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "comments")
-public class Comment {
+@Entity(name = "estate_ads")
+public class Ad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text;
-    private LocalDateTime createdAt;
+    private Date createdAt;
+    private String status;
+    private String title;
+    private Long price;
+    private Date expiresAt;
 
     @ManyToOne
     @JoinColumn(

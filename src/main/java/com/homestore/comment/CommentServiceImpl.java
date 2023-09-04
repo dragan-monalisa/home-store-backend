@@ -39,10 +39,14 @@ public class CommentServiceImpl implements CommentService{
     }
 
     private boolean isUserAbleToAddComment(User user){
-//        return commentRepository.didUserBought(user.getId())
-//                && commentRepository.didUserRented(user.getId())
-//                && commentRepository.didUserGaveForRent(user.getId())
-//                && commentRepository.didUserGaveForSale(user.getId());
-        return true;
+        boolean userGaveForSale = commentRepository.didUserGaveForSale(user.getId());
+        boolean userGaveForRent = commentRepository.didUserGaveForRent(user.getId());
+        boolean userRented = commentRepository.didUserRented(user.getId());
+        boolean userBought = commentRepository.didUserBought(user.getId());
+
+        return userGaveForSale ||
+                userGaveForRent ||
+                userRented ||
+                userBought;
     }
 }

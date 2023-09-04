@@ -42,5 +42,4 @@ public class CommentController {
         
         return new ResponseEntity<>("Users are required to have participated in a rental or sale activity, to be able to leave a comment!", HttpStatus.BAD_REQUEST);
     }
-
 }
