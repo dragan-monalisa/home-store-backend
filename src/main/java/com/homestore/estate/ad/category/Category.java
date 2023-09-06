@@ -1,4 +1,4 @@
-package com.homestore.estate.rental;
+package com.homestore.estate.ad.category;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,24 +8,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "rentals")
-public class Rental {
+@Entity(name = "ads_category")
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date startDate;
-    private Date endDate;
-    private Long price;
-    private Long propertyId;
-    private Long adId;
-    private Long tenantId;
-
+    private String category;
+    private String type;
 }

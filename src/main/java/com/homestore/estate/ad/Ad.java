@@ -1,5 +1,7 @@
 package com.homestore.estate.ad;
 
+import com.homestore.estate.ad.category.Category;
+import com.homestore.estate.property.Property;
 import com.homestore.security.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -24,11 +26,12 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date createdAt;
+    private Long price;
+    private Long realtorId;
     private String status;
     private String title;
-    private Long price;
-    private Date expiresAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
 
     @ManyToOne
     @JoinColumn(
@@ -36,4 +39,18 @@ public class Ad {
             name = "user_id"
     )
     private User user;
+
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "property_id"
+    )
+    private Property property;
+
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "category_id"
+    )
+    private Category category;
 }

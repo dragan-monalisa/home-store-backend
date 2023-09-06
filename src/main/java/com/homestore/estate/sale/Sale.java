@@ -21,8 +21,9 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date date;
     private Long price;
+    private Long propertyId;
     private Long adId;
     private Long buyerId;
+    private Date date;
 }

@@ -2,5 +2,6 @@ package com.homestore.security.user;
 
 public enum Role {
     USER,
-    ADMIN
+    ADMIN,
+    REALTOR
 }
