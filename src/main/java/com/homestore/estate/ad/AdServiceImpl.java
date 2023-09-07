@@ -3,6 +3,7 @@ package com.homestore.estate.ad;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,5 +19,12 @@ public class AdServiceImpl implements AdService{
                 .stream()
                 .map(adMapper)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AdDTO getAdById(Long id) {
+        Optional<Ad> ad = adRepository.findById(id);
+
+        return ad.map(adMapper).orElse(null);
     }
 }
