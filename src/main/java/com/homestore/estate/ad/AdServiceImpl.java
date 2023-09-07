@@ -15,7 +15,7 @@ public class AdServiceImpl implements AdService{
 
     @Override
     public List<AdDTO> getAllAds() {
-        return adRepository.findAll()
+        return adRepository.findAllAds()
                 .stream()
                 .map(adMapper)
                 .collect(Collectors.toList());
@@ -26,5 +26,13 @@ public class AdServiceImpl implements AdService{
         Optional<Ad> ad = adRepository.findById(id);
 
         return ad.map(adMapper).orElse(null);
+    }
+
+    @Override
+    public List<AdDTO> getAdsByCriteria(AdSearchCriteria adSearchCriteria){
+        return adRepository.getAdsByCriteria(adSearchCriteria)
+                .stream()
+                .map(adMapper)
+                .collect(Collectors.toList());
     }
 }

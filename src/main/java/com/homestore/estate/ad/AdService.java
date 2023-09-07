@@ -6,4 +6,5 @@ import java.util.Optional;
 public interface AdService {
     List<AdDTO> getAllAds();
     AdDTO getAdById(Long id);
+    List<AdDTO> getAdsByCriteria(AdSearchCriteria adSearchCriteria);
 }
