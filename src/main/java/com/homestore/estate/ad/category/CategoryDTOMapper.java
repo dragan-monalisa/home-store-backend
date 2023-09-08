@@ -10,8 +10,8 @@ public class CategoryDTOMapper implements Function<Category, CategoryDTO> {
     public CategoryDTO apply(Category category) {
         return new CategoryDTO(
                 category.getId(),
-                category.getCategory(),
-                category.getType()
+                category.getCategory().toString(),
+                category.getType().toString()
         );
     }
 }
