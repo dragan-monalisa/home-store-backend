@@ -11,9 +11,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                 "THEN true " +
                 "ELSE false " +
             "END " +
-            "FROM estate_ads ad " +
+            "FROM estate_ad ad " +
             "WHERE ad.id IN " +
-            "(SELECT a.id FROM estate_ads a INNER JOIN sales s ON a.id = s.id)" +
+            "(SELECT a.id FROM estate_ad a INNER JOIN Sale s ON a.id = s.id)" +
             "AND ad.user.id = ?1")
     boolean didUserGaveForSale(Long userId);
 
@@ -22,9 +22,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                 "THEN true " +
                 "ELSE false " +
             "END " +
-            "FROM estate_ads ad " +
+            "FROM estate_ad ad " +
             "WHERE ad.id IN " +
-            "(SELECT a.id FROM estate_ads a INNER JOIN rentals r ON a.id = r.id) " +
+            "(SELECT a.id FROM estate_ad a INNER JOIN Rental r ON a.id = r.id) " +
             "AND ad.user.id = ?1")
     boolean didUserGaveForRent(Long userId);
 
@@ -33,7 +33,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                 "THEN true " +
                 "ELSE false " +
             "END " +
-            "FROM rentals r " +
+            "FROM Rental r " +
             "WHERE r.tenantId = ?1")
     boolean didUserRented(Long id);
 
@@ -42,7 +42,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                 "THEN true " +
                 "ELSE false " +
             "END " +
-            "FROM sales s " +
+            "FROM Sale s " +
             "WHERE s.buyerId = ?1")
     boolean didUserBought(Long id);
 }
