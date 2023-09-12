@@ -10,15 +10,15 @@ import java.util.List;
 public interface AdRepository extends JpaRepository<Ad, Long> {
 
     @Query("SELECT a " +
-            "FROM estate_ads a " +
+            "FROM estate_ad a " +
             "WHERE a.status = 'active' ")
     List<Ad> findAllAds();
 
     @Query("SELECT a " +
-            "FROM estate_ads a " +
-            "INNER JOIN ads_category c ON a.category.id = c.id " +
-            "INNER JOIN properties p ON a.property.id = p.id " +
-            "INNER JOIN addresses ad ON p.addressId = ad.id " +
+            "FROM estate_ad a " +
+            "INNER JOIN ad_category c ON a.category.id = c.id " +
+            "INNER JOIN Property p ON a.property.id = p.id " +
+            "INNER JOIN Address ad ON p.addressId = ad.id " +
             "WHERE (:#{#criteria.category} is NULL OR c.category = :#{#criteria.category}) " +
             "AND (:#{#criteria.type} is NULL OR c.type = :#{#criteria.type}) " +
             "AND (:#{#criteria.county} is NULL OR ad.county = :#{#criteria.county}) " +

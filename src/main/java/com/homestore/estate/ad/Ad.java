@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "estate_ads")
+@Entity(name = "estate_ad")
 public class Ad {
 
     @Id

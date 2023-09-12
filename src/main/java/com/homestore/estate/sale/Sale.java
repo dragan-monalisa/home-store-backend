@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "sales")
+@Entity
 public class Sale {
 
     @Id
