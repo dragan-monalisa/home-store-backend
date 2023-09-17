@@ -1,35 +1,30 @@
 package com.homestore.comment;
 
+import com.homestore.forum.Forum;
+import com.homestore.forum.ForumRepository;
 import com.homestore.security.user.User;
 import com.homestore.utils.ResponseEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final CommentDTOMapper commentMapper;
+    private final ForumRepository forumRepository;
 
     @Override
-    public List<CommentDTO> getAllComments(){
-        return commentRepository.findAll()
-                .stream()
-                .map(commentMapper)
-                .collect(Collectors.toList());
-    }
+    public String postComment(User user, CommentRequest request) {
+        Forum forum = forumRepository.findById(request.getForumId()).orElse(null);
 
-    @Override
-    public String addComment(User user, CommentRequest request){
-        if(isUserAbleToAddComment(user)) {
+        if (request.getText() != null && forum != null) {
             var comment = Comment.builder()
                     .text(request.getText())
                     .user(user)
-                    .createdAt(LocalDateTime.now())
+                    .postedAt(LocalDateTime.now())
+                    .forum(forum)
                     .build();
             commentRepository.save(comment);
 
@@ -38,15 +33,38 @@ public class CommentServiceImpl implements CommentService{
         return ResponseEnum.BAD_REQUEST.name();
     }
 
-    private boolean isUserAbleToAddComment(User user){
-        boolean userGaveForSale = commentRepository.didUserGaveForSale(user.getId());
-        boolean userGaveForRent = commentRepository.didUserGaveForRent(user.getId());
-        boolean userRented = commentRepository.didUserRented(user.getId());
-        boolean userBought = commentRepository.didUserBought(user.getId());
+    @Override
+    public String deleteComment(User user, Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
 
-        return userGaveForSale ||
-                userGaveForRent ||
-                userRented ||
-                userBought;
+        if (comment != null) {
+            if (comment.getUser().getId().equals(user.getId())) {
+                commentRepository.deleteById(commentId);
+
+                return ResponseEnum.DELETED.name();
+            }
+
+            return ResponseEnum.UNAUTHORIZED.name();
+        }
+
+        return ResponseEnum.NOT_FOUND.name();
+    }
+
+    @Override
+    public String editComment(User user, Long commentId, CommentRequest request) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+
+        if (comment != null && request.getText() != null) {
+            if (comment.getUser().getId().equals(user.getId())) {
+                comment.setText(request.getText());
+                commentRepository.save(comment);
+
+                return ResponseEnum.UPDATED.name();
+            }
+
+            return ResponseEnum.UNAUTHORIZED.name();
+        }
+
+        return ResponseEnum.BAD_REQUEST.name();
     }
 }

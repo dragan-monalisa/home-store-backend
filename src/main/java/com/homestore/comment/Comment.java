@@ -1,5 +1,6 @@
 package com.homestore.comment;
 
+import com.homestore.forum.Forum;
 import com.homestore.security.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Comment {
     private Long id;
 
     private String text;
-    private LocalDateTime createdAt;
+    private LocalDateTime postedAt;
 
     @ManyToOne
     @JoinColumn(
@@ -33,4 +34,11 @@ public class Comment {
             name = "user_id"
     )
     private User user;
+
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "forum_id"
+    )
+    private Forum forum;
 }

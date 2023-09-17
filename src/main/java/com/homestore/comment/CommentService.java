@@ -1,9 +1,12 @@
 package com.homestore.comment;
 
 import com.homestore.security.user.User;
-import java.util.List;
 
 public interface CommentService {
-    List<CommentDTO> getAllComments();
-    String addComment(User user, CommentRequest request);
+
+    String postComment(User user, CommentRequest request);
+
+    String deleteComment(User user, Long commentId);
+
+    String editComment(User user, Long commentId, CommentRequest request);
 }

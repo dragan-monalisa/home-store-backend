@@ -17,9 +17,8 @@ public class CommentDTOMapper implements Function<Comment, CommentDTO> {
         UserDTO user = userMapper.apply(comment.getUser());
 
         return new CommentDTO(
-                comment.getId(),
                 comment.getText(),
-                comment.getCreatedAt(),
+                comment.getPostedAt(),
                 user
         );
     }
