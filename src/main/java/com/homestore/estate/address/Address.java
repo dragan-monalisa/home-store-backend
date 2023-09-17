@@ -23,5 +23,5 @@ public class Address {
     private String county;
     private String city;
     private String street;
-    private int number;
+    private Integer number;
 }

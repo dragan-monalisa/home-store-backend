@@ -13,10 +13,10 @@ public class AddressServiceImpl implements AddressService{
     public Long saveAddress(Address address) {
         Long id = addressRepository.findAddress(address);
 
-        if(id == null){
-            return addressRepository.save(address).getId();
+        if(id != null){
+            return id;
         }
 
-        return id;
+        return addressRepository.save(address).getId();
     }
 }

@@ -9,7 +9,6 @@ public class AddressDTOMapper implements Function<Address, AddressDTO> {
     @Override
     public AddressDTO apply(Address address) {
         return new AddressDTO(
-                address.getId(),
                 address.getCounty(),
                 address.getCity(),
                 address.getStreet(),
