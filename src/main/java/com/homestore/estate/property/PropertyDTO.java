@@ -1,5 +1,6 @@
 package com.homestore.estate.property;
 
+import com.homestore.estate.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class PropertyDTO {
     private Long id;
     private Long userId;
-    private Long addressId;
-    private int usableArea;
+    private Address address;
+    private Integer usableArea;
     private String description;
 }

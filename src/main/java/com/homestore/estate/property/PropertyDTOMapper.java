@@ -11,7 +11,7 @@ public class PropertyDTOMapper implements Function<Property, PropertyDTO> {
         return new PropertyDTO(
                 property.getId(),
                 property.getUserId(),
-                property.getAddressId(),
+                property.getAddress(),
                 property.getUsableArea(),
                 property.getDescription()
         );
