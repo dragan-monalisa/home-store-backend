@@ -1,6 +1,6 @@
 package com.homestore.forum;
 
-import com.homestore.comment.CommentDTO;
+import com.homestore.comment.CommentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ForumDTO {
-    private Integer id;
     private ForumNameEnum name;
-    private List<CommentDTO> comments;
+    private List<CommentResponse> comments;
 }

@@ -1,10 +1,14 @@
 package com.homestore.forum;
 
+import java.util.List;
+
 public interface ForumService {
 
-    ForumDTO getForumByName(String name);
+    List<ForumDTO> getForums();
 
-    String saveForum(ForumRequest request);
+    ForumDTO getForum(Integer id);
 
-    String editForumName(Integer id, ForumRequest request);
+    ForumDTO saveForum(ForumRequest request);
+
+    ForumDTO editForum(Integer id, ForumRequest request);
 }

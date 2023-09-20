@@ -16,7 +16,6 @@ public class ForumDTOMapper implements Function<Forum, ForumDTO> {
     public ForumDTO apply(Forum forum) {
 
         return new ForumDTO(
-                forum.getId(),
                 forum.getName(),
                 forum.getComments()
                         .stream()

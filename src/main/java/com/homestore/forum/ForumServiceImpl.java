@@ -1,10 +1,12 @@
 package com.homestore.forum;
 
-import com.homestore.utils.ResponseEnum;
+import com.homestore.exception.ResourceConflictException;
+import com.homestore.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,41 +16,49 @@ public class ForumServiceImpl implements ForumService{
     private final ForumDTOMapper forumMapper;
 
     @Override
-    public ForumDTO getForumByName(String name) {
-        Optional<Forum> forum = forumRepository.findForumByName(ForumNameEnum.valueOf(name));
+    public List<ForumDTO> getForums() {
+        List<Forum> forums = forumRepository.findAll();
 
-        return forum.map(forumMapper).orElse(null);
+        forums.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No forum found!"));
+
+        return forums
+                .stream()
+                .map(forumMapper)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ForumDTO getForum(Integer id) {
+        Forum forum = forumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Forum with id %s not found!", id)));
+
+        return forumMapper.apply(forum);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public String saveForum(ForumRequest request) {
-        boolean isPresent = forumRepository.findForumByName(ForumNameEnum.valueOf(request.getName())).isPresent();
+    public ForumDTO saveForum(ForumRequest request) {
+        forumRepository.findForumByName(ForumNameEnum.valueOf(request.getName())).ifPresent(forum -> {
+            throw new ResourceConflictException("Forum name already exist!");
+        });
 
-        if(!isPresent){
-            var forum = Forum.builder()
-                    .name(ForumNameEnum.valueOf(request.getName()))
-                    .build();
-            forumRepository.save(forum);
+        var forum = Forum.builder()
+                .name(ForumNameEnum.valueOf(request.getName()))
+                .build();
+        forumRepository.save(forum);
 
-            return ResponseEnum.SAVED.name();
-        }
-
-        return ResponseEnum.ALREADY_EXISTS.name();
+        return forumMapper.apply(forum);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public String editForumName(Integer id, ForumRequest request) {
-        Forum forum = forumRepository.findById(id).orElse(null);
+    public ForumDTO editForum(Integer id, ForumRequest request) {
+        Forum forum = forumRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 
-        if(forum != null && request.getName() != null){
-            forum.setName(ForumNameEnum.valueOf(request.getName()));
-            forumRepository.save(forum);
+        forum.setName(ForumNameEnum.valueOf(request.getName()));
+        forumRepository.save(forum);
 
-            return ResponseEnum.UPDATED.name();
-        }
-
-        return ResponseEnum.BAD_REQUEST.name();
+        return forumMapper.apply(forum);
     }
 }
