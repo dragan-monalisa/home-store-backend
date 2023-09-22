@@ -20,23 +20,23 @@ public class ForumController {
     private final ForumService forumService;
 
     @GetMapping
-    public ResponseEntity<List<ForumDTO>> getForums(){
+    public ResponseEntity<List<ForumResponse>> getForums(){
         return ResponseEntity.ok(forumService.getForums());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ForumDTO> getForum(@PathVariable Integer id){
+    public ResponseEntity<ForumResponse> getForum(@PathVariable Integer id){
         return ResponseEntity.ok(forumService.getForum(id));
     }
 
     @PostMapping
-    public ResponseEntity<ForumDTO> saveForum(@RequestBody ForumRequest request){
+    public ResponseEntity<ForumResponse> saveForum(@RequestBody ForumRequest request){
         return new ResponseEntity<>(forumService.saveForum(request), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ForumDTO> editForum(@PathVariable Integer id,
-                                              @RequestBody ForumRequest request){
+    public ResponseEntity<ForumResponse> editForum(@PathVariable Integer id,
+                                                   @RequestBody ForumRequest request){
         return ResponseEntity.ok(forumService.editForum(id, request));
     }
 }

@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ForumDTOMapper implements Function<Forum, ForumDTO> {
+public class ForumDTOMapper implements Function<Forum, ForumResponse> {
 
     private final CommentDTOMapper commentMapper;
 
     @Override
-    public ForumDTO apply(Forum forum) {
+    public ForumResponse apply(Forum forum) {
 
-        return new ForumDTO(
+        return new ForumResponse(
                 forum.getName(),
                 forum.getComments()
                         .stream()

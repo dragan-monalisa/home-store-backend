@@ -5,6 +5,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,15 @@ public class Forum {
 
     @OneToMany(
         mappedBy = "forum",
-        cascade = CascadeType.ALL
+        cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER
     )
     private List<Comment> comments;
+
+    @Override
+    public String toString() {
+        return "Forum{" +
+                "id=" + id +
+                ", name=" + name + '}';
+    }
 }

@@ -16,7 +16,7 @@ public class ForumServiceImpl implements ForumService{
     private final ForumDTOMapper forumMapper;
 
     @Override
-    public List<ForumDTO> getForums() {
+    public List<ForumResponse> getForums() {
         List<Forum> forums = forumRepository.findAll();
 
         forums.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No forum found!"));
@@ -28,7 +28,7 @@ public class ForumServiceImpl implements ForumService{
     }
 
     @Override
-    public ForumDTO getForum(Integer id) {
+    public ForumResponse getForum(Integer id) {
         Forum forum = forumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Forum with id %s not found!", id)));
 
@@ -37,7 +37,7 @@ public class ForumServiceImpl implements ForumService{
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public ForumDTO saveForum(ForumRequest request) {
+    public ForumResponse saveForum(ForumRequest request) {
         forumRepository.findForumByName(ForumNameEnum.valueOf(request.getName())).ifPresent(forum -> {
             throw new ResourceConflictException("Forum name already exist!");
         });
@@ -52,7 +52,7 @@ public class ForumServiceImpl implements ForumService{
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public ForumDTO editForum(Integer id, ForumRequest request) {
+    public ForumResponse editForum(Integer id, ForumRequest request) {
         Forum forum = forumRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 

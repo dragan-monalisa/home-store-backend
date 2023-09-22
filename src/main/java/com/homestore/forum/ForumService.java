@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface ForumService {
 
-    List<ForumDTO> getForums();
+    List<ForumResponse> getForums();
 
-    ForumDTO getForum(Integer id);
+    ForumResponse getForum(Integer id);
 
-    ForumDTO saveForum(ForumRequest request);
+    ForumResponse saveForum(ForumRequest request);
 
-    ForumDTO editForum(Integer id, ForumRequest request);
+    ForumResponse editForum(Integer id, ForumRequest request);
 }

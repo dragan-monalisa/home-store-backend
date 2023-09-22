@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ForumDTO {
+public class ForumResponse {
     private ForumNameEnum name;
     private List<CommentResponse> comments;
 }
