@@ -1,12 +1,13 @@
 package com.homestore.comment;
 
+import com.homestore.exception.ResourceNotFoundException;
+import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.forum.Forum;
 import com.homestore.forum.ForumRepository;
 import com.homestore.security.user.User;
-import com.homestore.utils.ResponseEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -14,57 +15,48 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ForumRepository forumRepository;
+    private final CommentDTOMapper commentMapper;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Override
-    public String postComment(User user, CommentRequest request) {
-        Forum forum = forumRepository.findById(request.getForumId()).orElse(null);
+    public CommentResponse postComment(User user, CommentRequest request) {
+        Forum forum = forumRepository.findById(request.getForumId())
+                .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 
-        if (request.getText() != null && forum != null) {
-            var comment = Comment.builder()
-                    .text(request.getText())
-                    .user(user)
-                    .postedAt(LocalDateTime.now())
-                    .forum(forum)
-                    .build();
-            commentRepository.save(comment);
+        var comment = Comment.builder()
+                .text(request.getText())
+                .user(user)
+                .forum(forum)
+                .build();
+        commentRepository.save(comment);
 
-            return ResponseEnum.ADDED.name();
-        }
-        return ResponseEnum.BAD_REQUEST.name();
+        return commentMapper.apply(comment);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Override
-    public String deleteComment(User user, Long commentId) {
-        Comment comment = commentRepository.findById(commentId).orElse(null);
+    public void deleteComment(User user, Long id) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Comment not found!"));
 
-        if (comment != null) {
-            if (comment.getUser().getId().equals(user.getId())) {
-                commentRepository.deleteById(commentId);
-
-                return ResponseEnum.DELETED.name();
-            }
-
-            return ResponseEnum.UNAUTHORIZED.name();
+        if (!comment.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedAccessException("You are not authorize to delete this comment!");
         }
 
-        return ResponseEnum.NOT_FOUND.name();
+        commentRepository.disableComment(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Override
-    public String editComment(User user, Long commentId, CommentRequest request) {
-        Comment comment = commentRepository.findById(commentId).orElse(null);
+    public CommentResponse editComment(User user, Long commentId, CommentRequest request) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(()-> new ResourceNotFoundException("Comment not found!"));
 
-        if (comment != null && request.getText() != null) {
-            if (comment.getUser().getId().equals(user.getId())) {
-                comment.setText(request.getText());
-                commentRepository.save(comment);
-
-                return ResponseEnum.UPDATED.name();
-            }
-
-            return ResponseEnum.UNAUTHORIZED.name();
+        if (!comment.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedAccessException("You are not authorize to edit this comment!");
         }
+        comment.setText(request.getText());
 
-        return ResponseEnum.BAD_REQUEST.name();
+        return commentMapper.apply(commentRepository.save(comment));
     }
 }

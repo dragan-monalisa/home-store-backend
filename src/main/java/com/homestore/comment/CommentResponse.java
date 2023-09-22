@@ -1,5 +1,6 @@
 package com.homestore.comment;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.homestore.security.user.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +12,12 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
+public class CommentResponse {
     private String text;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime postedAt;
+
+    private boolean isVisible;
     private UserDTO user;
 }

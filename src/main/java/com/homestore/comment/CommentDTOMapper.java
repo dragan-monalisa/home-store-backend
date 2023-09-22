@@ -8,17 +8,18 @@ import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
-public class CommentDTOMapper implements Function<Comment, CommentDTO> {
+public class CommentDTOMapper implements Function<Comment, CommentResponse> {
 
     private final UserDTOMapper userMapper;
 
     @Override
-    public CommentDTO apply(Comment comment) {
+    public CommentResponse apply(Comment comment) {
         UserDTO user = userMapper.apply(comment.getUser());
 
-        return new CommentDTO(
+        return new CommentResponse(
                 comment.getText(),
                 comment.getPostedAt(),
+                comment.isVisible(),
                 user
         );
     }
