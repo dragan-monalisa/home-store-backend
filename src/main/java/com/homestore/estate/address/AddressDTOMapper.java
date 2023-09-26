@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class AddressDTOMapper implements Function<Address, AddressDTO> {
+public class AddressDTOMapper implements Function<Address, AddressResponse> {
 
     @Override
-    public AddressDTO apply(Address address) {
-        return new AddressDTO(
+    public AddressResponse apply(Address address) {
+        return new AddressResponse(
                 address.getCounty(),
                 address.getCity(),
                 address.getStreet(),
