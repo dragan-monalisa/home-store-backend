@@ -29,7 +29,9 @@ public class SecurityConfiguration {
                         .requestMatchers(
                                 "/api/v1/auth/**",
                                 "/api/v1/forum/**",
-                                "/api/v1/comment/**"
+                                "/api/v1/comment/**",
+                                "/api/v1/properties/**",
+                                "/api/v1/ads/**"
                         )
                         .permitAll()
                         .anyRequest()
