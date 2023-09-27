@@ -30,7 +30,7 @@ public class ForumServiceImpl implements ForumService{
     @Override
     public ForumResponse getForum(Integer id) {
         Forum forum = forumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Forum with id %s not found!", id)));
+                .orElseThrow(() -> new ResourceNotFoundException("Forum not found!"));
 
         return forumMapper.apply(forum);
     }
@@ -38,7 +38,7 @@ public class ForumServiceImpl implements ForumService{
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public ForumResponse saveForum(ForumRequest request) {
-        forumRepository.findForumByName(ForumNameEnum.valueOf(request.getName())).ifPresent(forum -> {
+        forumRepository.findByName(ForumNameEnum.valueOf(request.getName())).ifPresent(forum -> {
             throw new ResourceConflictException("Forum name already exist!");
         });
 

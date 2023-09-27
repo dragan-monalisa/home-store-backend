@@ -7,9 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface ForumRepository extends JpaRepository<Forum, Integer> {
-
-    @Query("SELECT f " +
-            "FROM Forum f " +
-            "WHERE f.name = :name")
-    Optional<Forum> findForumByName(ForumNameEnum name);
+    
+    Optional<Forum> findByName(ForumNameEnum name);
 }
