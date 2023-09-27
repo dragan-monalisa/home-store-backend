@@ -1,6 +1,6 @@
 package com.homestore.comment;
 
-import com.homestore.security.user.UserDTO;
+import com.homestore.security.user.UserResponse;
 import com.homestore.security.user.UserDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class CommentDTOMapper implements Function<Comment, CommentResponse> {
 
     @Override
     public CommentResponse apply(Comment comment) {
-        UserDTO user = userMapper.apply(comment.getUser());
+        UserResponse user = userMapper.apply(comment.getUser());
 
         return new CommentResponse(
                 comment.getText(),

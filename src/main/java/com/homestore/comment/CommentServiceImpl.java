@@ -5,6 +5,7 @@ import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.forum.Forum;
 import com.homestore.forum.ForumRepository;
 import com.homestore.security.user.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -40,10 +41,10 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(()-> new ResourceNotFoundException("Comment not found!"));
 
         if (!comment.getUser().getId().equals(user.getId())) {
-            throw new UnauthorizedAccessException("You are not authorize to delete this comment!");
+            throw new UnauthorizedAccessException("You are not authorized to delete this comment!");
         }
 
-        commentRepository.disableComment(id);
+        commentRepository.delete(comment);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
@@ -53,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(()-> new ResourceNotFoundException("Comment not found!"));
 
         if (!comment.getUser().getId().equals(user.getId())) {
-            throw new UnauthorizedAccessException("You are not authorize to edit this comment!");
+            throw new UnauthorizedAccessException("You are not authorized to edit this comment!");
         }
         comment.setText(request.getText());
 
