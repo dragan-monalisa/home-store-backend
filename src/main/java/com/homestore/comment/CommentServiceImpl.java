@@ -5,7 +5,6 @@ import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.forum.Forum;
 import com.homestore.forum.ForumRepository;
 import com.homestore.security.user.User;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
