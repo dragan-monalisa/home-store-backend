@@ -1,7 +1,7 @@
 package com.homestore.security.user;
 
 import com.homestore.comment.Comment;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,18 +31,24 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
     
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRoleEnum role;
 
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     private List<Comment> comments;
 
