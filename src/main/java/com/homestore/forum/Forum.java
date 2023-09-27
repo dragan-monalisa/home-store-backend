@@ -33,7 +33,7 @@ public class Forum {
     @OneToMany(
         mappedBy = "forum",
         cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER
+        fetch = FetchType.LAZY
     )
     private List<Comment> comments;
 
