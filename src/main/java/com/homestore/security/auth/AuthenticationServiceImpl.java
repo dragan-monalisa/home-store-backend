@@ -1,7 +1,7 @@
 package com.homestore.security.auth;
 
 import com.homestore.security.config.JwtService;
-import com.homestore.security.user.Role;
+import com.homestore.security.user.UserRoleEnum;
 import com.homestore.security.user.User;
 import com.homestore.security.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(UserRoleEnum.USER)
                 .build();
 
         userRepository.save(user);
