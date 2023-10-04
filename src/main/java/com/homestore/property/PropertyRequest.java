@@ -1,6 +1,6 @@
-package com.homestore.estate.property;
+package com.homestore.property;
 
-import com.homestore.estate.ad.category.EstateCategory;
+import com.homestore.ad.category.PropertyCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,20 +11,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PropertyRequest {
-    private Integer usableArea;
+    private Integer area;
     private String description;
     private String county;
     private String city;
     private String street;
     private Integer number;
-    private EstateCategory category;
+    private PropertyCategory category;
 
-    //Apartment
-    private String partitioning;
     private Integer floor;
+    private Integer floorsNumber;
     private Integer buildYear;
     private Integer roomsNumber;
-
-    //House
-    private Integer storeys;
+    private Integer bathroomsNumber;
+    private String partitioning;
 }
