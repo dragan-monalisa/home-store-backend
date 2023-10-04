@@ -1,4 +1,4 @@
-package com.homestore.estate.address;
+package com.homestore.address;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

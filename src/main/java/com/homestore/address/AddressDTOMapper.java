@@ -1,4 +1,4 @@
-package com.homestore.estate.address;
+package com.homestore.address;
 
 import org.springframework.stereotype.Service;
 import java.util.function.Function;

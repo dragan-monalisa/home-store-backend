@@ -1,4 +1,4 @@
-package com.homestore.estate.address;
+package com.homestore.address;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.homestore.estate.address;
+package com.homestore.address;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

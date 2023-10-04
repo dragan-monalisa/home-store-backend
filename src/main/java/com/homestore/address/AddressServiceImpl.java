@@ -1,4 +1,4 @@
-package com.homestore.estate.address;
+package com.homestore.address;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
