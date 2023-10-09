@@ -1,6 +1,6 @@
 package com.homestore.property;
 
-import com.homestore.ad.category.PropertyCategory;
+import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.address.Address;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,7 +46,7 @@ public class Property {
     private boolean isActive;
 
     @Enumerated(EnumType.STRING)
-    private PropertyCategory category;
+    private PropertyCategoryEnum category;
 
     private Integer floor;
     private Integer floorsNumber;

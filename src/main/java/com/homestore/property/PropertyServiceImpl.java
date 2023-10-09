@@ -1,6 +1,6 @@
 package com.homestore.property;
 
-import com.homestore.ad.category.PropertyCategory;
+import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.address.Address;
 import com.homestore.address.AddressService;
 import com.homestore.exception.ResourceNotFoundException;
@@ -57,13 +57,13 @@ public class PropertyServiceImpl implements PropertyService{
 
         Property property = createProperty(user, request, address);
 
-        if(PropertyCategory.HOUSE.name().equals(request.getCategory().name()) || PropertyCategory.APARTMENT.name().equals(request.getCategory().name())){
+        if(PropertyCategoryEnum.HOUSE.name().equals(request.getCategory().name()) || PropertyCategoryEnum.APARTMENT.name().equals(request.getCategory().name())){
             property.setBuildYear(request.getBuildYear());
             property.setRoomsNumber(request.getRoomsNumber());
             property.setBathroomsNumber(request.getBathroomsNumber());
             property.setPartitioning(request.getPartitioning());
 
-            if(PropertyCategory.HOUSE.name().equals(request.getCategory().name())){
+            if(PropertyCategoryEnum.HOUSE.name().equals(request.getCategory().name())){
                 property.setFloorsNumber(request.getFloorsNumber());
             }
             else{

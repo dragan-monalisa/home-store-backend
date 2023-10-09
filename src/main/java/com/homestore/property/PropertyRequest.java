@@ -1,6 +1,6 @@
 package com.homestore.property;
 
-import com.homestore.ad.category.PropertyCategory;
+import com.homestore.ad.category.PropertyCategoryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class PropertyRequest {
     private String city;
     private String street;
     private Integer number;
-    private PropertyCategory category;
+    private PropertyCategoryEnum category;
 
     private Integer floor;
     private Integer floorsNumber;

@@ -1,6 +1,6 @@
 package com.homestore.property;
 
-import com.homestore.ad.category.PropertyCategory;
+import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,7 @@ public class PropertyResponse {
     private Address address;
     private Integer area;
     private String description;
-    private PropertyCategory category;
+    private PropertyCategoryEnum category;
     private Integer floor;
     private Integer floorsNumber;
     private Integer buildYear;
