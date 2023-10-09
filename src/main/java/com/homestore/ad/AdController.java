@@ -34,7 +34,7 @@ public class AdController {
         return ResponseEntity.ok(adService.getAd(id));
     }
 
-    @GetMapping
+    @GetMapping("/filter")
     public ResponseEntity<List<AdResponse>> searchAdsByCriteria(@RequestParam(name = "adCategory", required = false) String adCategory,
                                                                 @RequestParam(name = "propertyCategory", required = false) String propertyCategory,
                                                                 @RequestParam(name = "county", required = false) String county,
@@ -44,8 +44,6 @@ public class AdController {
                                                                 @RequestParam(name = "minUsableArea", required = false) Integer minUsableArea,
                                                                 @RequestParam(name = "maxUsableArea", required = false) Integer maxUsableArea) {
         AdSearchCriteria searchCriteria = AdSearchCriteria.builder()
-                .adCategory(AdCategoryEnum.valueOf(adCategory))
-                .propertyCategory(PropertyCategoryEnum.valueOf(propertyCategory))
                 .county(county)
                 .city(city)
                 .minPrice(minPrice)
@@ -53,6 +51,13 @@ public class AdController {
                 .minUsableArea(minUsableArea)
                 .maxUsableArea(maxUsableArea)
                 .build();
+
+        if(adCategory != null){
+            searchCriteria.setAdCategory(AdCategoryEnum.valueOf(adCategory));
+        }
+        if(propertyCategory != null){
+            searchCriteria.setPropertyCategory(PropertyCategoryEnum.valueOf(propertyCategory));
+        }
 
         return ResponseEntity.ok(adService.getAdsByCriteria(searchCriteria));
     }
@@ -62,7 +67,7 @@ public class AdController {
         return ResponseEntity.ok(adService.getMyAds(user));
     }
 
-    @GetMapping("/myAdsByStatus")
+    @GetMapping("/myAds/byStatus")
     public ResponseEntity<List<AdResponse>> getMyAdsByStatus(@AuthenticationPrincipal User user,
                                                              @RequestBody AdRequest request) {
         return ResponseEntity.ok(adService.getMyAdsByStatus(user, request.getStatus()));

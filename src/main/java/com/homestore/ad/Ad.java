@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "property_ad")
-@SQLDelete(sql = "UPDATE property_ad SET status = 'inactive' WHERE id = ?")
+@SQLDelete(sql = "UPDATE property_ad SET status = 'INACTIVE' WHERE id = ?")
 @Where(clause = "status = 'active'")
 public class Ad {
 
