@@ -30,13 +30,17 @@ public class ForumController {
     }
 
     @PostMapping
-    public ResponseEntity<ForumResponse> saveForum(@RequestBody ForumRequest request){
-        return new ResponseEntity<>(forumService.saveForum(request), HttpStatus.CREATED);
+    public ResponseEntity<String> saveForum(@RequestBody ForumRequest request){
+        forumService.saveForum(request);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ForumResponse> editForum(@PathVariable Integer id,
                                                    @RequestBody ForumRequest request){
-        return ResponseEntity.ok(forumService.editForum(id, request));
+        forumService.editForum(id, request);
+
+        return ResponseEntity.ok().build();
     }
 }
