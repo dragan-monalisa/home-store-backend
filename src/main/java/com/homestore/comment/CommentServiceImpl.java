@@ -15,11 +15,10 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ForumRepository forumRepository;
-    private final CommentDTOMapper commentMapper;
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Override
-    public CommentResponse postComment(User user, CommentRequest request) {
+    public void postComment(User user, CommentRequest request) {
         Forum forum = forumRepository.findById(request.getForumId())
                 .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 
@@ -28,9 +27,8 @@ public class CommentServiceImpl implements CommentService {
                 .user(user)
                 .forum(forum)
                 .build();
-        commentRepository.save(comment);
 
-        return commentMapper.apply(comment);
+        commentRepository.save(comment);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
@@ -48,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Override
-    public CommentResponse editComment(User user, Long commentId, CommentRequest request) {
+    public void editComment(User user, Long commentId, CommentRequest request) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()-> new ResourceNotFoundException("Comment not found!"));
 
@@ -57,6 +55,6 @@ public class CommentServiceImpl implements CommentService {
         }
         comment.setText(request.getText());
 
-        return commentMapper.apply(commentRepository.save(comment));
+        commentRepository.save(comment);
     }
 }
