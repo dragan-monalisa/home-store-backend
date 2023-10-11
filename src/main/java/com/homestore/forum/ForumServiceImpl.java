@@ -37,7 +37,7 @@ public class ForumServiceImpl implements ForumService{
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public ForumResponse saveForum(ForumRequest request) {
+    public void saveForum(ForumRequest request) {
         forumRepository.findByName(ForumNameEnum.valueOf(request.getName())).ifPresent(forum -> {
             throw new ResourceConflictException("Forum name already exist!");
         });
@@ -46,19 +46,15 @@ public class ForumServiceImpl implements ForumService{
                 .name(ForumNameEnum.valueOf(request.getName()))
                 .build();
         forumRepository.save(forum);
-
-        return forumMapper.apply(forum);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public ForumResponse editForum(Integer id, ForumRequest request) {
+    public void editForum(Integer id, ForumRequest request) {
         Forum forum = forumRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 
         forum.setName(ForumNameEnum.valueOf(request.getName()));
         forumRepository.save(forum);
-
-        return forumMapper.apply(forum);
     }
 }

@@ -8,7 +8,7 @@ public interface ForumService {
 
     ForumResponse getForum(Integer id);
 
-    ForumResponse saveForum(ForumRequest request);
+    void saveForum(ForumRequest request);
 
-    ForumResponse editForum(Integer id, ForumRequest request);
+    void editForum(Integer id, ForumRequest request);
 }
