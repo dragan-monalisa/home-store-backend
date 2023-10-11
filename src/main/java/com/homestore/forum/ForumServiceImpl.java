@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class ForumServiceImpl implements ForumService{
     }
 
     @Override
-    public ForumResponse getForum(Integer id) {
+    public ForumResponse getForum(Long id) {
         Forum forum = forumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Forum not found!"));
 
@@ -50,11 +51,16 @@ public class ForumServiceImpl implements ForumService{
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public void editForum(Integer id, ForumRequest request) {
+    public void editForum(Long id, ForumRequest request) {
         Forum forum = forumRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 
         forum.setName(ForumNameEnum.valueOf(request.getName()));
         forumRepository.save(forum);
+    }
+
+    @Override
+    public Optional<Forum> findForumById(Long id) {
+        return forumRepository.findById(id);
     }
 }

@@ -25,7 +25,7 @@ public class ForumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ForumResponse> getForum(@PathVariable Integer id){
+    public ResponseEntity<ForumResponse> getForum(@PathVariable Long id){
         return ResponseEntity.ok(forumService.getForum(id));
     }
 
@@ -37,7 +37,7 @@ public class ForumController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ForumResponse> editForum(@PathVariable Integer id,
+    public ResponseEntity<ForumResponse> editForum(@PathVariable Long id,
                                                    @RequestBody ForumRequest request){
         forumService.editForum(id, request);
 
