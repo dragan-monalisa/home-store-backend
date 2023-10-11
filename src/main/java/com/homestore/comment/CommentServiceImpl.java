@@ -3,7 +3,7 @@ package com.homestore.comment;
 import com.homestore.exception.ResourceNotFoundException;
 import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.forum.Forum;
-import com.homestore.forum.ForumRepository;
+import com.homestore.forum.ForumService;
 import com.homestore.security.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final ForumRepository forumRepository;
+    private final ForumService forumService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Override
     public void postComment(User user, CommentRequest request) {
-        Forum forum = forumRepository.findById(request.getForumId())
+        Forum forum = forumService.findForumById(request.getForumId())
                 .orElseThrow(()-> new ResourceNotFoundException("Forum not found!"));
 
         var comment = Comment.builder()
