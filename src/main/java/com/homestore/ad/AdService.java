@@ -18,4 +18,6 @@ public interface AdService {
     void updateAd(User user, Long id, AdRequest request);
 
     Optional<Ad> findAdById(Long id);
+
+    void updateAdStatusToInactive(Ad ad);
 }
