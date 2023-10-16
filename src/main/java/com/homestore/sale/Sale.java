@@ -1,15 +1,12 @@
 package com.homestore.sale;
 
 import com.homestore.ad.Ad;
-import com.homestore.property.Property;
-import com.homestore.security.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
@@ -32,12 +29,8 @@ public class Sale {
     @Column(nullable = false)
     private Long price;
 
-    @OneToOne
-    @JoinColumn(
-            nullable = false,
-            name = "property_id"
-    )
-    private Property property;
+    @Column(nullable = false)
+    private Long propertyId;
 
     @OneToOne
     @JoinColumn(
@@ -46,12 +39,8 @@ public class Sale {
     )
     private Ad ad;
 
-    @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "buyer_id"
-    )
-    private User buyer;
+    @Column(nullable = false)
+    private Long buyerId;
 
     @Column(nullable = false)
     private Long contractId;

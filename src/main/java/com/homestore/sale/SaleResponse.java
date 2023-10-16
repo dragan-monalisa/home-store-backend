@@ -1,8 +1,6 @@
 package com.homestore.sale;
 
 import com.homestore.ad.Ad;
-import com.homestore.property.Property;
-import com.homestore.security.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +14,8 @@ import java.time.LocalDateTime;
 public class SaleResponse {
     private Long id;
     private Long price;
-    private Property property;
+    private Long propertyId;
     private Ad ad;
-    private User buyer;
+    private Long buyerId;
     private LocalDateTime date;
 }

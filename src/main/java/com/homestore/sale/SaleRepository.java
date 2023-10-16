@@ -10,8 +10,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Query("SELECT s " +
             "FROM Sale s " +
-            "INNER JOIN property_ad a " +
-            "ON s.ad.id = a.id " +
-            "WHERE a.realtorId = :realtorId ")
+            "WHERE s.ad.realtorId = :realtorId")
     List<Sale> findAllByRealtor(Long realtorId);
 }

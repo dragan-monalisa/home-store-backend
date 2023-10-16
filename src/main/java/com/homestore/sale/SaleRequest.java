@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class SaleRequest {
     private Long price;
     private Long adId;
-    private Long userId;
+    private Long buyerId;
     private String clauses;
 }

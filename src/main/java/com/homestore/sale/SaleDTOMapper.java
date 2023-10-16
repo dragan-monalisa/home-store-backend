@@ -11,9 +11,9 @@ public class SaleDTOMapper implements Function<Sale, SaleResponse> {
         return new SaleResponse(
                 sale.getId(),
                 sale.getPrice(),
-                sale.getProperty(),
+                sale.getPropertyId(),
                 sale.getAd(),
-                sale.getBuyer(),
+                sale.getBuyerId(),
                 sale.getDate()
         );
     }
