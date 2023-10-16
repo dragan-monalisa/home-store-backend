@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdSearchCriteria {
+public class SearchCriteria {
     AdCategoryEnum adCategory;
     PropertyCategoryEnum propertyCategory;
     String county;

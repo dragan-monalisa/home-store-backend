@@ -2,11 +2,12 @@ package com.homestore.ad;
 
 import com.homestore.security.user.User;
 import java.util.List;
+import java.util.Optional;
 
 public interface AdService {
     List<AdResponse> getAds();
     AdResponse getAd(Long id);
-    List<AdResponse> getAdsByCriteria(AdSearchCriteria adSearchCriteria);
+    List<AdResponse> getAdsByFilters(SearchCriteria searchCriteria);
 
     List<AdResponse> getMyAds(User user);
 
@@ -15,4 +16,6 @@ public interface AdService {
     void deleteAd(User user, Long id);
 
     void updateAd(User user, Long id, AdRequest request);
+
+    Optional<Ad> findAdById(Long id);
 }

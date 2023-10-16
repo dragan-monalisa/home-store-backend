@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,8 +41,8 @@ public class AdServiceImpl implements AdService{
     }
 
     @Override
-    public List<AdResponse> getAdsByCriteria(AdSearchCriteria adSearchCriteria){
-        List<Ad> ads = adRepository.getAdsByCriteria(adSearchCriteria);
+    public List<AdResponse> getAdsByFilters(SearchCriteria searchCriteria){
+        List<Ad> ads = adRepository.getAdsByFilters(searchCriteria);
 
         ads.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No ad found!"));
 
@@ -105,5 +106,10 @@ public class AdServiceImpl implements AdService{
         }
 
         adRepository.delete(ad);
+    }
+
+    @Override
+    public Optional<Ad> findAdById(Long id) {
+        return adRepository.findById(id);
     }
 }
