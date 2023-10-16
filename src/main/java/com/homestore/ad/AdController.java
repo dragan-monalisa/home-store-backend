@@ -1,7 +1,5 @@
 package com.homestore.ad;
 
-import com.homestore.ad.category.AdCategoryEnum;
-import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.property.PropertyResponse;
 import com.homestore.security.user.User;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
@@ -35,42 +32,19 @@ public class AdController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<AdResponse>> searchAdsByCriteria(@RequestParam(name = "adCategory", required = false) String adCategory,
-                                                                @RequestParam(name = "propertyCategory", required = false) String propertyCategory,
-                                                                @RequestParam(name = "county", required = false) String county,
-                                                                @RequestParam(name = "city", required = false) String city,
-                                                                @RequestParam(name = "minPrice", required = false) Long minPrice,
-                                                                @RequestParam(name = "maxPrice", required = false) Long maxPrice,
-                                                                @RequestParam(name = "minUsableArea", required = false) Integer minUsableArea,
-                                                                @RequestParam(name = "maxUsableArea", required = false) Integer maxUsableArea) {
-        AdSearchCriteria searchCriteria = AdSearchCriteria.builder()
-                .county(county)
-                .city(city)
-                .minPrice(minPrice)
-                .maxPrice(maxPrice)
-                .minUsableArea(minUsableArea)
-                .maxUsableArea(maxUsableArea)
-                .build();
-
-        if(adCategory != null){
-            searchCriteria.setAdCategory(AdCategoryEnum.valueOf(adCategory));
-        }
-        if(propertyCategory != null){
-            searchCriteria.setPropertyCategory(PropertyCategoryEnum.valueOf(propertyCategory));
-        }
-
-        return ResponseEntity.ok(adService.getAdsByCriteria(searchCriteria));
+    public ResponseEntity<List<AdResponse>> getAdsByFilters(@RequestBody SearchCriteria searchCriteria) {
+        return ResponseEntity.ok(adService.getAdsByFilters(searchCriteria));
     }
 
-    @GetMapping("/myAds")
+    @GetMapping("/my-ads")
     public ResponseEntity<List<AdResponse>> getMyAds(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(adService.getMyAds(user));
     }
 
-    @GetMapping("/myAds/byStatus")
+    @GetMapping("/my-ads/status")
     public ResponseEntity<List<AdResponse>> getMyAdsByStatus(@AuthenticationPrincipal User user,
-                                                             @RequestBody AdRequest request) {
-        return ResponseEntity.ok(adService.getMyAdsByStatus(user, request.getStatus()));
+                                                             @RequestBody String status) {
+        return ResponseEntity.ok(adService.getMyAdsByStatus(user, StatusEnum.valueOf(status)));
     }
 
     @PatchMapping("/{id}")
