@@ -1,19 +1,19 @@
-package com.homestore.estate.rental;
+package com.homestore.rental;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RentalDTO {
+public class RentalResponse {
     private Long id;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private Long price;
     private Long propertyId;
     private Long adId;

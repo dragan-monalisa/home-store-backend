@@ -1,14 +1,14 @@
-package com.homestore.estate.rental;
+package com.homestore.rental;
 
 import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class RentalDTOMapper implements Function<Rental, RentalDTO> {
+public class RentalDTOMapper implements Function<Rental, RentalResponse> {
 
     @Override
-    public RentalDTO apply(Rental rental) {
-        return new RentalDTO(
+    public RentalResponse apply(Rental rental) {
+        return new RentalResponse(
                 rental.getId(),
                 rental.getStartDate(),
                 rental.getEndDate(),
