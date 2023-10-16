@@ -29,7 +29,9 @@ public class SaleServiceImpl implements SaleService{
     public List<SaleResponse> getSales(User realtor) {
         List<Sale> sales = saleRepository.findAllByRealtor(realtor.getId());
 
-        sales.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No sale found!"));
+        if(sales.isEmpty()){
+            throw new ResourceNotFoundException("No sale found!");
+        }
 
         return sales
                 .stream()
@@ -53,7 +55,7 @@ public class SaleServiceImpl implements SaleService{
         Ad ad = adService.findAdById(request.getAdId())
                 .orElseThrow(() -> new ResourceNotFoundException("Ad not found"));
 
-        User buyer = userService.findUserById(request.getUserId())
+        User buyer = userService.findUserById(request.getBuyerId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         var contract = Contract.builder()
@@ -63,12 +65,13 @@ public class SaleServiceImpl implements SaleService{
 
         var sale = Sale.builder()
                 .price(request.getPrice())
-                .property(ad.getProperty())
+                .propertyId(ad.getProperty().getId())
                 .ad(ad)
-                .buyer(buyer)
+                .buyerId(buyer.getId())
                 .contractId(contract.getId())
                 .build();
 
+        adService.updateAdStatusToInactive(ad);
         saleRepository.save(sale);
     }
 }
