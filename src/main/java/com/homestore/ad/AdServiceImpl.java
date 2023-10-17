@@ -112,9 +112,4 @@ public class AdServiceImpl implements AdService{
     public Optional<Ad> findAdById(Long id) {
         return adRepository.findById(id);
     }
-
-    @Override
-    public void updateAdStatusToInactive(Ad ad) {
-        ad.setStatus(StatusEnum.INACTIVE);
-    }
 }
