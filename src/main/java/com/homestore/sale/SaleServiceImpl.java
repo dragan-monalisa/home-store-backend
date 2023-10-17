@@ -2,6 +2,7 @@ package com.homestore.sale;
 
 import com.homestore.ad.Ad;
 import com.homestore.ad.AdService;
+import com.homestore.ad.StatusEnum;
 import com.homestore.contract.Contract;
 import com.homestore.contract.ContractService;
 import com.homestore.exception.ResourceNotFoundException;
@@ -71,7 +72,7 @@ public class SaleServiceImpl implements SaleService{
                 .contractId(contract.getId())
                 .build();
 
-        adService.updateAdStatusToInactive(ad);
+        ad.setStatus(StatusEnum.INACTIVE);
         saleRepository.save(sale);
     }
 }

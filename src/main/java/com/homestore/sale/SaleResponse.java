@@ -1,6 +1,6 @@
 package com.homestore.sale;
 
-import com.homestore.ad.Ad;
+import com.homestore.ad.AdResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ public class SaleResponse {
     private Long id;
     private Long price;
     private Long propertyId;
-    private Ad ad;
+    private AdResponse ad;
     private Long buyerId;
     private LocalDateTime date;
 }
