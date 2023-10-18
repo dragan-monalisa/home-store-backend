@@ -96,6 +96,11 @@ public class PropertyServiceImpl implements PropertyService{
        propertyRepository.delete(property);
     }
 
+    @Override
+    public Optional<Property> findById(Long id) {
+        return propertyRepository.findById(id);
+    }
+
     private Property createProperty(User user, PropertyRequest request, Address address){
         return Property.builder()
                 .area(request.getArea())

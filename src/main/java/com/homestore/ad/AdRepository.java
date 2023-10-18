@@ -20,8 +20,14 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
             "AND (:#{#criteria.minPrice} is NULL OR a.price >= :#{#criteria.minPrice}) " +
             "AND (:#{#criteria.maxPrice} is NULL OR a.price <= :#{#criteria.maxPrice}) " +
             "AND (:#{#criteria.minUsableArea} is NULL OR p.area >= :#{#criteria.minUsableArea}) " +
-            "AND (:#{#criteria.maxUsableArea} is NULL OR p.area <= :#{#criteria.maxUsableArea}) ")
+            "AND (:#{#criteria.maxUsableArea} is NULL OR p.area <= :#{#criteria.maxUsableArea}) " +
+            "AND a.status = 'ACTIVE' ")
     List<Ad> getAdsByFilters(@Param("criteria") SearchCriteria adCriteria);
+
+    @Query("SELECT a " +
+            "FROM property_ad a " +
+            "WHERE a.status = 'ACTIVE' ")
+    List<Ad> findAllAds();
 
     List<Ad> findAllByUserIdAndStatus(Long userId, StatusEnum status);
 

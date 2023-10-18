@@ -18,7 +18,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,7 +26,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity(name = "property_ad")
 @SQLDelete(sql = "UPDATE property_ad SET status = 'INACTIVE' WHERE id = ?")
-@Where(clause = "status = 'ACTIVE'")
 public class Ad {
 
     @Id

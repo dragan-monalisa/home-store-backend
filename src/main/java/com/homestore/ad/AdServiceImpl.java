@@ -2,6 +2,8 @@ package com.homestore.ad;
 
 import com.homestore.exception.ResourceNotFoundException;
 import com.homestore.exception.UnauthorizedAccessException;
+import com.homestore.property.Property;
+import com.homestore.property.PropertyService;
 import com.homestore.security.user.User;
 import com.homestore.util.UpdateHelper;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +21,11 @@ public class AdServiceImpl implements AdService{
     private final AdRepository adRepository;
     private final AdDTOMapper adMapper;
     private final UpdateHelper updateHelper;
+    private final PropertyService propertyService;
 
     @Override
     public List<AdResponse> getAds() {
-        List<Ad> ads = adRepository.findAll();
+        List<Ad> ads = adRepository.findAllAds();
 
         ads.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No ad found!"));
 
@@ -106,6 +109,23 @@ public class AdServiceImpl implements AdService{
         }
 
         adRepository.delete(ad);
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER')")
+    @Override
+    public void saveAd(User user, AdRequest request) {
+        Property property = propertyService.findById(request.getPropertyId())
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found!"));
+
+        var ad = Ad.builder()
+                .title(request.getTitle())
+                .price(request.getPrice())
+                .category(request.getCategory())
+                .userId(user.getId())
+                .property(property)
+                .build();
+
+        adRepository.save(ad);
     }
 
     @Override
