@@ -1,5 +1,6 @@
 package com.homestore.ad;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.homestore.ad.category.AdCategoryEnum;
 import com.homestore.property.PropertyResponse;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AdResponse {
     private Long id;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime createdAt;
+
     private StatusEnum status;
     private String title;
     private Long price;
