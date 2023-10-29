@@ -5,6 +5,7 @@ import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.property.Property;
 import com.homestore.property.PropertyService;
 import com.homestore.security.user.User;
+import com.homestore.security.user.UserService;
 import com.homestore.util.UpdateHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,7 @@ public class AdServiceImpl implements AdService{
     private final AdDTOMapper adMapper;
     private final UpdateHelper updateHelper;
     private final PropertyService propertyService;
+    private final UserService userService;
 
     @Override
     public List<AdResponse> getAds() {
@@ -117,14 +119,23 @@ public class AdServiceImpl implements AdService{
         Property property = propertyService.findById(request.getPropertyId())
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found!"));
 
+        User realtor = userService.findUserById(request.getRealtorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Realtor not found"));
+
         var ad = Ad.builder()
                 .title(request.getTitle())
                 .price(request.getPrice())
                 .category(request.getCategory())
                 .userId(user.getId())
+                .realtorId(realtor.getId())
                 .property(property)
                 .build();
 
+        adRepository.save(ad);
+    }
+
+    @Override
+    public void save(Ad ad) {
         adRepository.save(ad);
     }
 

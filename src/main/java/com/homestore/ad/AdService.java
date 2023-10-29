@@ -20,4 +20,6 @@ public interface AdService {
     Optional<Ad> findAdById(Long id);
 
     void saveAd(User user, AdRequest request);
+
+    void save(Ad ad);
 }

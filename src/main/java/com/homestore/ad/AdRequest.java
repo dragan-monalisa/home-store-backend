@@ -16,4 +16,5 @@ public class AdRequest {
     private Long price;
     private AdCategoryEnum category;
     private Long propertyId;
+    private Long realtorId;
 }
