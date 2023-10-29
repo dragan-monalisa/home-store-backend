@@ -73,6 +73,7 @@ public class SaleServiceImpl implements SaleService{
                 .build();
 
         ad.setStatus(StatusEnum.INACTIVE);
+        adService.save(ad);
         saleRepository.save(sale);
     }
 }

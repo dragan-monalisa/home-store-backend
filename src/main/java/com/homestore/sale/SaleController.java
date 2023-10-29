@@ -21,8 +21,8 @@ public class SaleController {
     private final SaleService saleService;
 
     @GetMapping
-    public ResponseEntity<List<SaleResponse>> getSales(@AuthenticationPrincipal User user){
-        return ResponseEntity.ok(saleService.getSales(user));
+    public ResponseEntity<List<SaleResponse>> getSales(@AuthenticationPrincipal User realtor){
+        return ResponseEntity.ok(saleService.getSales(realtor));
     }
 
     @GetMapping("{id}")
