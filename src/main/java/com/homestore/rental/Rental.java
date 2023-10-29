@@ -1,10 +1,13 @@
 package com.homestore.rental;
 
+import com.homestore.ad.Ad;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,8 +37,12 @@ public class Rental {
     @Column(nullable = false)
     private Long propertyId;
 
-    @Column(name = "estate_ad_id", nullable = false)
-    private Long adId;
+    @OneToOne
+    @JoinColumn(
+            nullable = false,
+            name = "estate_ad_id"
+    )
+    private Ad ad;
 
     @Column(nullable = false)
     private Long tenantId;
