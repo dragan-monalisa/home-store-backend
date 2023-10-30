@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,10 +27,10 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(nullable = false)
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Column(nullable = false)
     private Long price;
@@ -52,6 +53,6 @@ public class Rental {
 
     @PrePersist
     public void onCreate() {
-        this.startDate = LocalDateTime.now();
+        this.startDate = LocalDate.now();
     }
 }
