@@ -43,7 +43,7 @@ public class RentalServiceImpl implements RentalService{
     @Override
     public RentalResponse getRental(Long id) {
         Rental rental = rentalRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rental not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Rental not found!"));
 
         return rentalMapper.apply(rental);
     }
@@ -51,10 +51,10 @@ public class RentalServiceImpl implements RentalService{
     @Override
     public void saveRental(RentalRequest request) {
         Ad ad = adService.findAdById(request.getAdId())
-                .orElseThrow(() -> new ResourceNotFoundException("Ad not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ad not found!"));
 
         User tenant = userService.findUserById(request.getTenantId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
 
         var contract = Contract.builder()
                 .clauses(request.getClauses())

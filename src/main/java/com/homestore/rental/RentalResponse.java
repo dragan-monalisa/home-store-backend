@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,10 +17,10 @@ public class RentalResponse {
     private Long id;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     private Long price;
     private Long propertyId;
