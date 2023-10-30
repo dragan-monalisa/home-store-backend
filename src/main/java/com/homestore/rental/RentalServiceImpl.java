@@ -9,10 +9,10 @@ import com.homestore.exception.ResourceNotFoundException;
 import com.homestore.security.user.User;
 import com.homestore.security.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,17 +26,14 @@ public class RentalServiceImpl implements RentalService{
 
     @PreAuthorize("hasAnyAuthority('REALTOR')")
     @Override
-    public List<RentalResponse> getRentals(User realtor) {
-        List<Rental> rentals = rentalRepository.findAllByRealtor(realtor.getId());
+    public Page<RentalResponse> getRentals(User realtor, Pageable pageable) {
+        Page<Rental> page = rentalRepository.findAllByRealtor(realtor.getId(), pageable);
 
-        if(rentals.isEmpty()){
+        if(page.isEmpty()){
             throw new ResourceNotFoundException("No rental found!");
         }
 
-        return rentals
-                .stream()
-                .map(rentalMapper)
-                .collect(Collectors.toList());
+        return page.map(rentalMapper);
     }
 
     @PreAuthorize("hasAnyAuthority('REALTOR')")

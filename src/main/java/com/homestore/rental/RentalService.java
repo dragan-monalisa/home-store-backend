@@ -1,11 +1,12 @@
 package com.homestore.rental;
 
 import com.homestore.security.user.User;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface RentalService {
 
-    List<RentalResponse> getRentals(User realtor);
+    Page<RentalResponse> getRentals(User realtor, Pageable pageable);
 
     RentalResponse getRental(Long id);
 
