@@ -2,6 +2,8 @@ package com.homestore.property;
 
 import com.homestore.security.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +25,8 @@ public class PropertyController {
     private final PropertyService propertyService;
 
     @GetMapping
-    public ResponseEntity<List<PropertyResponse>> getProperties(@AuthenticationPrincipal User user){
-        return ResponseEntity.ok(propertyService.getProperties(user.getId()));
+    public ResponseEntity<Page<PropertyResponse>> getProperties(@AuthenticationPrincipal User user, Pageable pageable){
+        return ResponseEntity.ok(propertyService.getProperties(user.getId(), pageable));
     }
 
     @GetMapping("/{id}")

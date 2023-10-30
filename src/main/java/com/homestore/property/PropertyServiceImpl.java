@@ -9,6 +9,8 @@ import com.homestore.util.UpdateHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -26,17 +28,14 @@ public class PropertyServiceImpl implements PropertyService{
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public List<PropertyResponse> getProperties(Long userId) {
-        List<Property> properties = propertyRepository.findByUserId(userId);
+    public Page<PropertyResponse> getProperties(Long userId, Pageable pageable) {
+        Page<Property> page = propertyRepository.findByUserId(userId, pageable);
 
-        if(properties.isEmpty()){
+        if(page.isEmpty()){
             throw new ResourceNotFoundException("No property found!");
         }
 
-        return properties
-                .stream()
-                .map(propertyMapper)
-                .collect(Collectors.toList());
+        return page.map(propertyMapper);
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")
