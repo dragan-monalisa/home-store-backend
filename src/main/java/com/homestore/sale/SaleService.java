@@ -1,12 +1,13 @@
 package com.homestore.sale;
 
 import com.homestore.security.user.User;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface SaleService {
     void saveSale(SaleRequest request);
 
-    List<SaleResponse> getSales(User realtor);
+    Page<SaleResponse> getSales(User realtor, Pageable pageable);
 
     SaleResponse getSale(Long id);
 }

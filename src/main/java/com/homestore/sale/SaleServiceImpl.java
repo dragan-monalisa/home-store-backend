@@ -10,10 +10,10 @@ import com.homestore.security.user.User;
 import com.homestore.security.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,17 +27,14 @@ public class SaleServiceImpl implements SaleService{
 
     @PreAuthorize("hasAnyAuthority('REALTOR')")
     @Override
-    public List<SaleResponse> getSales(User realtor) {
-        List<Sale> sales = saleRepository.findAllByRealtor(realtor.getId());
+    public Page<SaleResponse> getSales(User realtor, Pageable pageable) {
+        Page<Sale> page = saleRepository.findAllByRealtor(realtor.getId(), pageable);
 
-        if(sales.isEmpty()){
+        if(page.isEmpty()){
             throw new ResourceNotFoundException("No sale found!");
         }
 
-        return sales
-                .stream()
-                .map(saleMapper)
-                .collect(Collectors.toList());
+        return page.map(saleMapper);
     }
 
     @PreAuthorize("hasAnyAuthority('REALTOR')")
