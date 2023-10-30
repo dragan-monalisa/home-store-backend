@@ -1,17 +1,19 @@
 package com.homestore.ad;
 
 import com.homestore.security.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
 public interface AdService {
-    List<AdResponse> getAds();
+    Page<AdResponse> getAds(Pageable pageable);
     AdResponse getAd(Long id);
-    List<AdResponse> getAdsByFilters(SearchCriteria searchCriteria);
+    Page<AdResponse> getAdsByFilters(SearchCriteria searchCriteria, Pageable pageable);
 
-    List<AdResponse> getMyAds(User user);
+    Page<AdResponse> getMyAds(User user, Pageable pageable);
 
-    List<AdResponse> getMyAdsByStatus(User user, StatusEnum status);
+    Page<AdResponse> getMyAdsByStatus(User user, StatusEnum status, Pageable pageable);
 
     void deleteAd(User user, Long id);
 

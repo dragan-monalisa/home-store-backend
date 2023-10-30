@@ -9,11 +9,11 @@ import com.homestore.security.user.UserService;
 import com.homestore.util.UpdateHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +26,14 @@ public class AdServiceImpl implements AdService{
     private final UserService userService;
 
     @Override
-    public List<AdResponse> getAds() {
-        List<Ad> ads = adRepository.findAllAds();
+    public Page<AdResponse> getAds(Pageable pageable) {
+        Page<Ad> page = adRepository.findAllAds(pageable);
 
-        ads.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No ad found!"));
+        if(page.isEmpty()){
+            throw new ResourceNotFoundException("No ad found!");
+        }
 
-        return ads
-                .stream()
-                .map(adMapper)
-                .collect(Collectors.toList());
+        return page.map(adMapper);
     }
 
     @Override
@@ -46,41 +45,38 @@ public class AdServiceImpl implements AdService{
     }
 
     @Override
-    public List<AdResponse> getAdsByFilters(SearchCriteria searchCriteria){
-        List<Ad> ads = adRepository.getAdsByFilters(searchCriteria);
+    public Page<AdResponse> getAdsByFilters(SearchCriteria searchCriteria, Pageable pageable){
+        Page<Ad> page = adRepository.getAdsByFilters(searchCriteria, pageable);
 
-        ads.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No ad found!"));
+        if(page.isEmpty()){
+            throw new ResourceNotFoundException("No ad found!");
+        }
 
-        return ads
-                .stream()
-                .map(adMapper)
-                .collect(Collectors.toList());
+        return page.map(adMapper);
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public List<AdResponse> getMyAds(User user) {
-        List<Ad> ads = adRepository.findAllByUserId(user.getId());
+    public Page<AdResponse> getMyAds(User user, Pageable pageable) {
+        Page<Ad> page = adRepository.findAllByUserId(user.getId(), pageable);
 
-        ads.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No ad found!"));
+        if(page.isEmpty()){
+            throw new ResourceNotFoundException("No ad found!");
+        }
 
-        return ads
-                .stream()
-                .map(adMapper)
-                .collect(Collectors.toList());
+        return page.map(adMapper);
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public List<AdResponse> getMyAdsByStatus(User user, StatusEnum status) {
-        List<Ad> ads = adRepository.findAllByUserIdAndStatus(user.getId(), status);
+    public Page<AdResponse> getMyAdsByStatus(User user, StatusEnum status, Pageable pageable) {
+        Page<Ad> page = adRepository.findAllByUserIdAndStatus(user.getId(), status, pageable);
 
-        ads.stream().findAny().orElseThrow(() -> new ResourceNotFoundException("No ad found!"));
+        if(page.isEmpty()){
+            throw new ResourceNotFoundException("No ad found!");
+        }
 
-        return ads
-                .stream()
-                .map(adMapper)
-                .collect(Collectors.toList());
+        return page.map(adMapper);
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")

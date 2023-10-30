@@ -1,5 +1,7 @@
 package com.homestore.ad;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,14 +24,14 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
             "AND (:#{#criteria.minUsableArea} is NULL OR p.area >= :#{#criteria.minUsableArea}) " +
             "AND (:#{#criteria.maxUsableArea} is NULL OR p.area <= :#{#criteria.maxUsableArea}) " +
             "AND a.status = 'ACTIVE' ")
-    List<Ad> getAdsByFilters(@Param("criteria") SearchCriteria adCriteria);
+    Page<Ad> getAdsByFilters(@Param("criteria") SearchCriteria adCriteria, Pageable pageable);
 
     @Query("SELECT a " +
             "FROM property_ad a " +
             "WHERE a.status = 'ACTIVE' ")
-    List<Ad> findAllAds();
+    Page<Ad> findAllAds(Pageable pageable);
 
-    List<Ad> findAllByUserIdAndStatus(Long userId, StatusEnum status);
+    Page<Ad> findAllByUserIdAndStatus(Long userId, StatusEnum status, Pageable pageable);
 
-    List<Ad> findAllByUserId(Long userId);
+    Page<Ad> findAllByUserId(Long userId, Pageable pageable);
 }

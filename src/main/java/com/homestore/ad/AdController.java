@@ -3,6 +3,8 @@ package com.homestore.ad;
 import com.homestore.property.PropertyResponse;
 import com.homestore.security.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,8 +27,8 @@ public class AdController {
     private final AdService adService;
 
     @GetMapping
-    public ResponseEntity<List<AdResponse>> getAds() {
-        return ResponseEntity.ok(adService.getAds());
+    public ResponseEntity<Page<AdResponse>> getAds(Pageable pageable) {
+        return ResponseEntity.ok(adService.getAds(pageable));
     }
 
     @GetMapping("/{id}")
@@ -35,19 +37,20 @@ public class AdController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<AdResponse>> getAdsByFilters(@RequestBody SearchCriteria searchCriteria) {
-        return ResponseEntity.ok(adService.getAdsByFilters(searchCriteria));
+    public ResponseEntity<Page<AdResponse>> getAdsByFilters(@RequestBody SearchCriteria searchCriteria, Pageable pageable) {
+        return ResponseEntity.ok(adService.getAdsByFilters(searchCriteria, pageable));
     }
 
     @GetMapping("/my-ads")
-    public ResponseEntity<List<AdResponse>> getMyAds(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(adService.getMyAds(user));
+    public ResponseEntity<Page<AdResponse>> getMyAds(@AuthenticationPrincipal User user, Pageable pageable) {
+        return ResponseEntity.ok(adService.getMyAds(user, pageable));
     }
 
     @GetMapping("/my-ads/status")
-    public ResponseEntity<List<AdResponse>> getMyAdsByStatus(@AuthenticationPrincipal User user,
-                                                             @RequestParam String status) {
-        return ResponseEntity.ok(adService.getMyAdsByStatus(user, StatusEnum.valueOf(status)));
+    public ResponseEntity<Page<AdResponse>> getMyAdsByStatus(@AuthenticationPrincipal User user,
+                                                             @RequestParam String status,
+                                                             Pageable pageable) {
+        return ResponseEntity.ok(adService.getMyAdsByStatus(user, StatusEnum.valueOf(status), pageable));
     }
 
     @PatchMapping("/{id}")
