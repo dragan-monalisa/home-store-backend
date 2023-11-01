@@ -1,7 +1,6 @@
 package com.homestore.sale;
 
 import com.homestore.ad.Ad;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,10 +26,10 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private Long price;
 
-    @Column(nullable = false)
+    @NotNull
     private Long propertyId;
 
     @OneToOne
@@ -39,10 +39,10 @@ public class Sale {
     )
     private Ad ad;
 
-    @Column(nullable = false)
+    @NotNull
     private Long buyerId;
 
-    @Column(nullable = false)
+    @NotNull
     private Long contractId;
 
     private LocalDateTime date;
