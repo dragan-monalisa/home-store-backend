@@ -1,11 +1,11 @@
 package com.homestore.contract;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class Contract {
     private LocalDateTime startDate;
 
     @Size(max = 1600)
-    @Column(nullable = false)
+    @NotBlank
     private String clauses;
 
     @PrePersist
