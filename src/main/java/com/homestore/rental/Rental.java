@@ -1,7 +1,6 @@
 package com.homestore.rental;
 
 import com.homestore.ad.Ad;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,13 +28,13 @@ public class Rental {
 
     private LocalDate startDate;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate endDate;
 
-    @Column(nullable = false)
+    @NotNull
     private Long price;
 
-    @Column(nullable = false)
+    @NotNull
     private Long propertyId;
 
     @OneToOne
@@ -44,10 +44,10 @@ public class Rental {
     )
     private Ad ad;
 
-    @Column(nullable = false)
+    @NotNull
     private Long tenantId;
 
-    @Column(nullable = false)
+    @NotNull
     private Long contractId;
 
     @PrePersist
