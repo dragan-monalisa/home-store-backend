@@ -46,6 +46,7 @@ public class ForumServiceImpl implements ForumService{
         var forum = Forum.builder()
                 .name(ForumNameEnum.valueOf(request.getName()))
                 .build();
+
         forumRepository.save(forum);
     }
 
