@@ -52,6 +52,13 @@ public class AdController {
         return ResponseEntity.ok(adService.getMyAdsByStatus(user, StatusEnum.valueOf(status), pageable));
     }
 
+    @GetMapping("/realtor")
+    public ResponseEntity<Page<AdResponse>> getRealtorAds(@AuthenticationPrincipal User realtor,
+                                                          @RequestParam StatusEnum status,
+                                                          Pageable pageable) {
+        return ResponseEntity.ok(adService.getRealtorAds(realtor, status, pageable));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<PropertyResponse> updateAd(@AuthenticationPrincipal User user,
                                                      @PathVariable Long id,

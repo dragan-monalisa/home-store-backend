@@ -15,6 +15,7 @@ public interface AdService {
 
     Page<AdResponse> getMyAdsByStatus(User user, StatusEnum status, Pageable pageable);
 
+    Page<AdResponse> getRealtorAds(User realtor, StatusEnum status, Pageable pageable);
     void deleteAd(User user, Long id);
 
     void updateAd(User user, Long id, AdRequest request);

@@ -79,12 +79,24 @@ public class AdServiceImpl implements AdService{
         return page.map(adMapper);
     }
 
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('REALTOR')")
+    @Override
+    public Page<AdResponse> getRealtorAds(User realtor, StatusEnum status, Pageable pageable) {
+        Page<Ad> page = adRepository.findAllByRealtorIdAndStatus(realtor.getId(), status, pageable);
+
+        if(page.isEmpty()){
+            throw new ResourceNotFoundException("No ad found!");
+        }
+
+        return page.map(adMapper);
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER', 'REALTOR')")
     @Override
     public void updateAd(User user, Long id, AdRequest request) {
         adRepository.findById(id)
                 .map(ad -> {
-                    if(!ad.getUserId().equals(user.getId())){
+                    if(!ad.getUserId().equals(user.getId()) || !ad.getRealtorId().equals(user.getId())){
                         throw new UnauthorizedAccessException("You are not authorize to update this ad!");
                     }
 
@@ -93,7 +105,7 @@ public class AdServiceImpl implements AdService{
 
                     return adRepository.save(ad);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Property not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ad not found!"));
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")

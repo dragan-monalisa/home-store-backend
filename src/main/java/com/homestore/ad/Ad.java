@@ -2,7 +2,6 @@ package com.homestore.ad;
 
 import com.homestore.ad.category.AdCategoryEnum;
 import com.homestore.property.Property;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,19 +39,19 @@ public class Ad {
     private StatusEnum status;
 
     @Size(max = 48)
-    @Column(nullable = false)
+    @NotBlank
     private String title;
 
-    @Column(nullable = false)
+    @NotNull
     private Long price;
 
     @Enumerated(EnumType.STRING)
     private AdCategoryEnum category;
 
-    @Column(nullable = false)
+    @NotNull
     private Long realtorId;
 
-    @Column(nullable = false)
+    @NotNull
     private Long userId;
 
     @ManyToOne
