@@ -2,7 +2,7 @@ package com.homestore.property;
 
 import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.address.Address;
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,14 +35,14 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private Long userId;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer area;
 
     @Size(max = 1024)
-    @Column(nullable = false)
+    @NotBlank
     private String description;
 
     private boolean isActive;
@@ -55,7 +57,9 @@ public class Property {
     private Integer bathroomsNumber;
     private String partitioning;
 
-    @OneToOne
+    @OneToOne(
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(
             name = "address_id",
             nullable = false

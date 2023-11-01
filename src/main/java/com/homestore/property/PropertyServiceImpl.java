@@ -2,8 +2,8 @@ package com.homestore.property;
 
 import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.address.Address;
-import com.homestore.address.AddressService;
 import com.homestore.exception.ResourceNotFoundException;
+import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.security.user.User;
 import com.homestore.util.UpdateHelper;
 import jakarta.transaction.Transactional;
@@ -21,7 +21,6 @@ public class PropertyServiceImpl implements PropertyService{
 
     private final PropertyRepository propertyRepository;
     private final PropertyDTOMapper propertyMapper;
-    private final AddressService addressService;
     private final UpdateHelper updateHelper;
 
     @PreAuthorize("hasAnyAuthority('USER')")
@@ -50,8 +49,6 @@ public class PropertyServiceImpl implements PropertyService{
     @Override
     public void saveProperty(User user, PropertyRequest request) {
         Address address = createAddress(request);
-        address.setId(addressService.saveAddress(address));
-
         Property property = createProperty(user, request, address);
 
         if(PropertyCategoryEnum.HOUSE.name().equals(request.getCategory().name()) || PropertyCategoryEnum.APARTMENT.name().equals(request.getCategory().name())){
@@ -73,9 +70,13 @@ public class PropertyServiceImpl implements PropertyService{
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public void updateProperty(Long id, PropertyRequest request) {
+    public void updateProperty(Long id, User user, PropertyRequest request) {
         propertyRepository.findById(id)
                 .map(property -> {
+                    if(!property.getUserId().equals(user.getId())){
+                        throw new UnauthorizedAccessException("You are not authorize to update this property!");
+                    }
+
                     String[] nulls = updateHelper.getNullPropertyNames(request);
                     BeanUtils.copyProperties(request, property, nulls);
 
@@ -86,9 +87,13 @@ public class PropertyServiceImpl implements PropertyService{
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public void deleteProperty(Long id) {
+    public void deleteProperty(Long id, User user) {
         Property property = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found!"));
+
+        if(!property.getUserId().equals(user.getId())){
+            throw new UnauthorizedAccessException("You are not authorize to delete this property!");
+        }
 
        propertyRepository.delete(property);
     }

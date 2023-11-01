@@ -38,20 +38,22 @@ public class PropertyController {
                                                @RequestBody PropertyRequest request){
         propertyService.saveProperty(user, request);
 
-        return new ResponseEntity<>("Property successfully saved!", HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<PropertyResponse> updateProperty(@PathVariable Long id,
+                                                           @AuthenticationPrincipal User user,
                                                            @RequestBody PropertyRequest request){
-        propertyService.updateProperty(id, request);
+        propertyService.updateProperty(id, user, request);
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProperty(@PathVariable Long id){
-        propertyService.deleteProperty(id);
+    public ResponseEntity<String> deleteProperty(@PathVariable Long id,
+                                                 @AuthenticationPrincipal User user){
+        propertyService.deleteProperty(id, user);
 
         return ResponseEntity.noContent().build();
     }

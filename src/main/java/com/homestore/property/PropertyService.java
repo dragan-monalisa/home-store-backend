@@ -13,9 +13,9 @@ public interface PropertyService {
 
     void saveProperty(User user,PropertyRequest request);
 
-    void updateProperty(Long id, PropertyRequest request);
+    void updateProperty(Long id, User user, PropertyRequest request);
 
-    void deleteProperty(Long id);
+    void deleteProperty(Long id, User user);
 
     Optional<Property> findById(Long id);
 }
