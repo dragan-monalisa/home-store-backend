@@ -55,5 +55,7 @@ Real Estate Management API made with Spring Boot and MySQL
 | PATCH     | edit comment            | /api/v1/comment/{id}             | USER & ADMIN     |
 
 # Forum
+| HTTP Verb | Request description     | Endpoint                         | Authorization    |
+|-----------|-------------------------|----------------------------------|------------------|
 | GET      | get all forums           | /api/v1/forums                   | permit all       |
 | GET      | get forum by id          | /api/v1/comment                  | permit all       |
