@@ -41,22 +41,10 @@ public class AdController {
     }
 
     @GetMapping("/my-ads")
-    public ResponseEntity<Page<AdResponse>> getMyAds(@AuthenticationPrincipal User user, Pageable pageable) {
-        return ResponseEntity.ok(adService.getMyAds(user, pageable));
-    }
-
-    @GetMapping("/my-ads/status")
-    public ResponseEntity<Page<AdResponse>> getMyAdsByStatus(@AuthenticationPrincipal User user,
-                                                             @RequestParam String status,
-                                                             Pageable pageable) {
+    public ResponseEntity<Page<AdResponse>> getMyAds(@AuthenticationPrincipal User user,
+                                                     @RequestParam String status,
+                                                     Pageable pageable) {
         return ResponseEntity.ok(adService.getMyAdsByStatus(user, StatusEnum.valueOf(status), pageable));
-    }
-
-    @GetMapping("/realtor")
-    public ResponseEntity<Page<AdResponse>> getRealtorAds(@AuthenticationPrincipal User realtor,
-                                                          @RequestParam StatusEnum status,
-                                                          Pageable pageable) {
-        return ResponseEntity.ok(adService.getRealtorAds(realtor, status, pageable));
     }
 
     @PatchMapping("/{id}")

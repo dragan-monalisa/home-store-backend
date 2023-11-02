@@ -5,14 +5,17 @@ import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.property.Property;
 import com.homestore.property.PropertyService;
 import com.homestore.security.user.User;
+import com.homestore.security.user.UserRoleEnum;
 import com.homestore.security.user.UserService;
 import com.homestore.util.UpdateHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -55,34 +58,17 @@ public class AdServiceImpl implements AdService{
         return page.map(adMapper);
     }
 
-    @PreAuthorize("hasAnyAuthority('USER')")
-    @Override
-    public Page<AdResponse> getMyAds(User user, Pageable pageable) {
-        Page<Ad> page = adRepository.findAllByUserId(user.getId(), pageable);
-
-        if(page.isEmpty()){
-            throw new ResourceNotFoundException("No ad found!");
-        }
-
-        return page.map(adMapper);
-    }
-
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER', 'REALTOR')")
     @Override
     public Page<AdResponse> getMyAdsByStatus(User user, StatusEnum status, Pageable pageable) {
-        Page<Ad> page = adRepository.findAllByUserIdAndStatus(user.getId(), status, pageable);
+        Page<Ad> page = new PageImpl<>(Collections.emptyList());
 
-        if(page.isEmpty()){
-            throw new ResourceNotFoundException("No ad found!");
+        if(user.getRole().equals(UserRoleEnum.USER)){
+            page = adRepository.findAllByUserIdAndStatus(user.getId(), status, pageable);
         }
-
-        return page.map(adMapper);
-    }
-
-    @PreAuthorize("hasAnyAuthority('REALTOR')")
-    @Override
-    public Page<AdResponse> getRealtorAds(User realtor, StatusEnum status, Pageable pageable) {
-        Page<Ad> page = adRepository.findAllByRealtorIdAndStatus(realtor.getId(), status, pageable);
+        else if(user.getRole().equals(UserRoleEnum.REALTOR)){
+            page = adRepository.findAllByRealtorIdAndStatus(user.getId(), status, pageable);
+        }
 
         if(page.isEmpty()){
             throw new ResourceNotFoundException("No ad found!");

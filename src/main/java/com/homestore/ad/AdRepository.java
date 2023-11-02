@@ -32,7 +32,5 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
 
     Page<Ad> findAllByUserIdAndStatus(Long userId, StatusEnum status, Pageable pageable);
 
-    Page<Ad> findAllByUserId(Long userId, Pageable pageable);
-
     Page<Ad> findAllByRealtorIdAndStatus(Long id, StatusEnum status, Pageable pageable);
 }
