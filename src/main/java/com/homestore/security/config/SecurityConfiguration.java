@@ -31,7 +31,10 @@ public class SecurityConfiguration {
                                 "/api/v1/forum/**",
                                 "/api/v1/comment/**",
                                 "/api/v1/properties/**",
-                                "/api/v1/ads/**"
+                                "/api/v1/ads/**",
+                                "/api/v1/sales/**",
+                                "/api/v1/rentals/**",
+                                "/api/v1/favorites/**"
                         )
                         .permitAll()
                         .anyRequest()
