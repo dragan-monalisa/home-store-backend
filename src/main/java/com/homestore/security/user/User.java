@@ -1,7 +1,7 @@
 package com.homestore.security.user;
 
 import com.homestore.comment.Comment;
-import jakarta.persistence.Column;
+import com.homestore.favorite.Favorite;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,16 +33,20 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Size(max = 32)
+    @NotBlank
     private String firstName;
 
-    @Column(nullable = false)
+    @Size(max = 32)
+    @NotBlank
     private String lastName;
 
-    @Column(nullable = false)
+    @Size(max = 64)
+    @NotBlank
     private String email;
 
-    @Column(nullable = false)
+    @Size(max = 64)
+    @NotBlank
     private String password;
     
     @Enumerated(EnumType.STRING)
@@ -51,6 +57,12 @@ public class User implements UserDetails {
             fetch = FetchType.LAZY
     )
     private List<Comment> comments;
+
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY
+    )
+    private List<Favorite> favorites;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
