@@ -20,7 +20,7 @@ public class FavoriteServiceImpl implements FavoriteService{
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public Page<FavoriteResponse> getFavorites(User user, Pageable pageable) {
+    public Page<FavoriteResponse> getMyFavorites(User user, Pageable pageable) {
         Page<Favorite> page = favoriteRepository.findAllByUser(user, pageable);
 
         if(page.isEmpty()){
@@ -31,7 +31,7 @@ public class FavoriteServiceImpl implements FavoriteService{
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")
-    public void saveAd(User user, Long adId) {
+    public void saveAdToFavorites(User user, Long adId) {
         Ad ad = adService.findAdById(adId)
                 .orElseThrow(() -> new ResourceNotFoundException("Ad not found!"));
 
@@ -45,7 +45,7 @@ public class FavoriteServiceImpl implements FavoriteService{
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
-    public void deleteAd(User user, Long adId) {
+    public void deleteAdFromFavorites(User user, Long adId) {
         Favorite favorite = favoriteRepository.findAllByUserAndAd_Id(user, adId)
                 .orElseThrow(() -> new ResourceNotFoundException("Ad not found!"));
 

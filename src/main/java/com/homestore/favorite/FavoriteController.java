@@ -24,13 +24,13 @@ public class FavoriteController {
     @GetMapping
     public ResponseEntity<Page<FavoriteResponse>> getMyFavorites(@AuthenticationPrincipal User user,
                                                                  Pageable pageable){
-        return ResponseEntity.ok(favoriteService.getFavorites(user, pageable));
+        return ResponseEntity.ok(favoriteService.getMyFavorites(user, pageable));
     }
 
     @PostMapping
     public ResponseEntity<String> saveAdToFavorites(@AuthenticationPrincipal User user,
                                                     Long adId){
-        favoriteService.saveAd(user, adId);
+        favoriteService.saveAdToFavorites(user, adId);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -38,7 +38,7 @@ public class FavoriteController {
     @DeleteMapping("/{adId}")
     public ResponseEntity<String> deleteAdFromFavorites(@AuthenticationPrincipal User user,
                                                         @PathVariable Long adId){
-        favoriteService.deleteAd(user, adId);
+        favoriteService.deleteAdFromFavorites(user, adId);
 
         return ResponseEntity.noContent().build();
     }
