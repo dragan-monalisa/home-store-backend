@@ -1,5 +1,7 @@
 package com.homestore.security.auth;
 
+import com.homestore.security.auth.request.AuthenticationRequest;
+import com.homestore.security.auth.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,12 +16,14 @@ public class AuthenticationController {
     private final AuthenticationServiceImpl authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authService.register(request));
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
+        authService.register(request);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest registerRequest){
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest registerRequest){
         return ResponseEntity.ok(authService.authenticate(registerRequest));
     }
 }

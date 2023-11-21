@@ -1,7 +1,11 @@
-package com.homestore.security.user;
+package com.homestore.user;
 
 import com.homestore.comment.Comment;
 import com.homestore.favorite.Favorite;
+import com.homestore.security.token.jwt.JwtToken;
+import com.homestore.security.token.uuid.UuidToken;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -19,6 +24,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,6 +49,9 @@ public class User implements UserDetails {
 
     @Size(max = 64)
     @NotBlank
+    @Column(
+            unique = true
+    )
     private String email;
 
     @Size(max = 64)
@@ -51,6 +60,24 @@ public class User implements UserDetails {
     
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
+
+    private Boolean isLocked;
+    private Boolean isEnabled;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime confirmedAt;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL
+    )
+    private List<JwtToken> jwtTokens;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL
+    )
+    private List<UuidToken> uuidTokens;
 
     @OneToMany(
             mappedBy = "user",
@@ -108,5 +135,13 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role + '}';
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.isLocked = false;
+        this.isEnabled = false;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }

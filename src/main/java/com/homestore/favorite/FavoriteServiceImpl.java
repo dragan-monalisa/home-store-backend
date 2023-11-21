@@ -3,7 +3,7 @@ package com.homestore.favorite;
 import com.homestore.ad.Ad;
 import com.homestore.ad.AdService;
 import com.homestore.exception.ResourceNotFoundException;
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

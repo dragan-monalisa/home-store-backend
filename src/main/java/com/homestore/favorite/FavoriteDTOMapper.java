@@ -2,8 +2,8 @@ package com.homestore.favorite;
 
 import com.homestore.ad.AdDTOMapper;
 import com.homestore.ad.AdResponse;
-import com.homestore.security.user.UserDTOMapper;
-import com.homestore.security.user.UserResponse;
+import com.homestore.user.UserDTOMapper;
+import com.homestore.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.function.Function;

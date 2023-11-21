@@ -1,7 +1,7 @@
 package com.homestore.comment;
 
 import com.homestore.forum.Forum;
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
 package com.homestore.comment;
 
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 
 public interface CommentService {
 

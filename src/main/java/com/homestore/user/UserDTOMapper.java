@@ -1,4 +1,4 @@
-package com.homestore.security.user;
+package com.homestore.user;
 
 import org.springframework.stereotype.Service;
 import java.util.function.Function;
@@ -12,7 +12,8 @@ public class UserDTOMapper implements Function<User, UserResponse> {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole().toString()
         );
     }
 }

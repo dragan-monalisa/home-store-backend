@@ -1,7 +1,7 @@
 package com.homestore.comment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.homestore.security.user.UserResponse;
+import com.homestore.user.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

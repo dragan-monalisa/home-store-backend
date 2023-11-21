@@ -1,7 +1,7 @@
 package com.homestore.comment;
 
-import com.homestore.security.user.UserResponse;
-import com.homestore.security.user.UserDTOMapper;
+import com.homestore.user.UserResponse;
+import com.homestore.user.UserDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.function.Function;

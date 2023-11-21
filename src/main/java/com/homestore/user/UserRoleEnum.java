@@ -1,4 +1,4 @@
-package com.homestore.security.user;
+package com.homestore.user;
 
 public enum UserRoleEnum {
     USER,

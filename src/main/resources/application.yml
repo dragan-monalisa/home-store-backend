@@ -1,8 +1,23 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/homestor
+    url: jdbc:mysql://localhost:3306/homestore
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password:
   jpa:
     open-in-view: true
+  data:
+    web:
+      pageable:
+        default-page-size: 8
+        max-page-size: 32
+
+  #email validator
+  email-regex: "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
+
+  #domain
+  domain: http://127.0.0.1:8080
+
+  uuid:
+    token:
+      expiration: 1 #minutes

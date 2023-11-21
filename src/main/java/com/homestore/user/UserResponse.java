@@ -1,4 +1,4 @@
-package com.homestore.security.auth;
+package com.homestore.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class UserResponse {
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
+    private String userRole;
 }

@@ -1,6 +1,6 @@
 package com.homestore.comment;
 
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.homestore.ad;
 
 import com.homestore.property.PropertyResponse;
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

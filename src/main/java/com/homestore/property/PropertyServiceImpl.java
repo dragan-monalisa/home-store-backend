@@ -4,7 +4,7 @@ import com.homestore.ad.category.PropertyCategoryEnum;
 import com.homestore.address.Address;
 import com.homestore.exception.ResourceNotFoundException;
 import com.homestore.exception.UnauthorizedAccessException;
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 import com.homestore.util.UpdateHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

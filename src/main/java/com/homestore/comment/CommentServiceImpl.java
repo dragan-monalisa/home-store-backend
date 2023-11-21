@@ -4,7 +4,7 @@ import com.homestore.exception.ResourceNotFoundException;
 import com.homestore.exception.UnauthorizedAccessException;
 import com.homestore.forum.Forum;
 import com.homestore.forum.ForumService;
-import com.homestore.security.user.User;
+import com.homestore.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

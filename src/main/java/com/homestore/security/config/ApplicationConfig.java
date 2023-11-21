@@ -1,6 +1,6 @@
 package com.homestore.security.config;
 
-import com.homestore.security.user.UserRepository;
+import com.homestore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
