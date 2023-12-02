@@ -8,20 +8,14 @@ import com.homestore.security.auth.request.RegisterRequest;
 import com.homestore.security.config.JwtService;
 import com.homestore.security.token.jwt.JwtToken;
 import com.homestore.security.token.jwt.JwtTokenService;
-import com.homestore.security.token.uuid.UuidToken;
-import com.homestore.security.token.uuid.UuidTokenService;
 import com.homestore.user.User;
 import com.homestore.user.UserRoleEnum;
 import com.homestore.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +25,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenService jwtTokenService;
-    private final UuidTokenService uuidTokenService;
-
-    @Value("${domain}")
-    private String domain;
-
-    @Value("${uuid.token.expiration}")
-    private int expireTime;
 
     @Override
     public void register(RegisterRequest request) {
@@ -61,52 +48,47 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
 
         saveUserToken(user, jwtToken);
-        sendConfirmationEmail(user.getEmail());
     }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-
-        var user = userService.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-    }
-
-    private void sendConfirmationEmail(String email) {
-        User user = userService.findByEmail(email)
+        User user = userService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
 
-        if(user.getConfirmedAt() != null){
-            throw new UnsuccessfulOperationException("User already confirmed!");
+        if (user.getIsEnabled()) {
+            String token = jwtService.generateToken(user);
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+
+            revokeAllUserTokens(user);
+            saveUserToken(user, token);
+
+            return AuthenticationResponse.builder()
+                    .token(token)
+                    .build();
         }
 
-        if (user.getUuidTokens() == null) {
-            user.setUuidTokens(new ArrayList<>());
+        throw new ResourceNotFoundException("User not found!");
+    }
+
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = jwtTokenService.findAllValidTokenByUser(user.getId());
+
+        if(validUserTokens.isEmpty()){
+            return;
         }
 
-        if (!user.getUuidTokens().isEmpty()) {
-            throw new UnsuccessfulOperationException("Mail already sent!");
-        }
+        validUserTokens.forEach(jwtToken -> {
+            jwtToken.setExpired(true);
+            jwtToken.setRevoked(true);
 
-        final String token = UUID.randomUUID().toString();
-        final String link = domain + "/api/v1/auth/confirm-account?confirmationToken=" + token;
-
-        var buildToken = UuidToken.builder()
-                .token(token)
-                .expiresAt(LocalDateTime.now().plusMinutes(expireTime))
-                .user(user)
-                .build();
-
-        uuidTokenService.save(buildToken);
-        //
+            jwtTokenService.save(jwtToken);
+        });
     }
 
     private void saveUserToken(User user, String jwtToken) {

@@ -12,12 +12,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class JwtService {
-//    @Value("${jwt.secret-key}")
-//    private String secretKey;
-    private static final String SECRET_KEY = "792293dd2ded085410d3c15c46ea3f8b14559e91aff81f2ea2eda5f671fb7ecd";
+
+     @Value("${jwt.secret-key}")
+     private String secretKey;
 
     public String extractUsername(String jwtToken) {
         return extractClaim(jwtToken, Claims::getSubject);
@@ -69,7 +70,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 
         return Keys.hmacShaKeyFor(keyBytes);
     }
